@@ -10,16 +10,33 @@
     </style>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
+    <!--
+        <li><a href="https://gemini.google.com/app">Google Gemini - Research, Ideas</a></li>
+        <li><a href="https://chatgpt.com">ChatGPT - Research, Ideas</a></li>
+        <li><a href="https://www.perplexity.ai/">Perplexity - Research, Ideas</a></li>
+        <li><a href="https://gitmind.com/">GitMind - Research, Ideas</a></li>
+        <li><a href="https://answerthepublic.com/">AnswerThePublic - Research, Keywords</a></li>
+        <li><a href="https://trends.google.com/trending?geo=US&hl=en-US">Google Trends - Research, Keywords</a></li>
+    -->
 <body>
     <h2>BOOKMARKS</h2>
     <input type="text" placeholder="Search" style="display:block; height:2rem; width:95vw; background:lavender;"/>
     <ul>
-        <li><a href="https://google.com">Name</a></li>
-        <li><a href="https://facebook.com">Name</a></li>
+        
     </ul>
     <script>
         (function(){
+            let linksArray = [
+                "https://gemini.google.com/app#Google Gemini | Research, Ideas", 
+                "https://chatgpt.com#ChatGPT | Research, Ideas", 
+                "https://www.perplexity.ai#ChatGPT | Research, Ideas", 
+                "https://www.gitmind.com#GitMind | Research, Ideas", 
+            ]
+            
             $("input").on("keyup", function(e){
+                for(let i = 0; i < linksArray.length; i++){
+                    
+                }
                 alert( $(this).val() );
             });
         })(); 
