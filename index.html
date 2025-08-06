@@ -35,10 +35,9 @@
             
             $("input").on("keyup", function(e){
                 for(let i = 0; i < linksArray.length; i++){
-                    if( linksArray[i].toLowerCase().includes($(this).val().toLowerCase()) ){
+                    if( ($(this).val().length >= 3) && linksArray[i].toLowerCase().includes($(this).val().toLowerCase()) ){
                         let parts = linksArray[i].split("#"); 
-                        let item = `<li><a href=` + parts[1] + `>` + parts[2] + `</a></li>`; 
-                        $("ul").append(item); 
+                        $("ul").append( `<li><a href=` + parts[0] + `>` + parts[1] + `</a></li>` ); 
                     }
                 }
             });
