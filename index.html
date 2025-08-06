@@ -4,25 +4,129 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bookmarks</title>
+    <style>
+        /* Basic styling for the list */
+        .expandable-list, .nested-list {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        
+        /* Hide the nested lists by default */
+        .nested-list.hidden {
+            display: none;
+        }
+        
+        /* Style the buttons */
+        .expand-btn {
+            background: none;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            line-height: 18px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+            margin-right: 5px;
+            border-radius: 3px;
+        }
+        
+        .expand-btn.active {
+            background-color: #eee;
+        }
+        
+        /* Add some spacing for readability */
+        h2, h3 {
+            margin: 5px 0;
+            font-size: 18px;
+        }
+        
+        /* Ensure the anchor tags and buttons are aligned */
+        .toggle {
+            display: flex;
+            align-items: center;
+        }
+        
+        .toggle a {
+            text-decoration: none;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-    <h1>Main Categories</h1>
-      <ul>
-        <li>
-          <h2><a href="#category1">Category 1</a></h2>
-          <ul>
-            <li><a href="#item1a">Item 1a</a></li>
-            <li><a href="#item1b">Item 1b</a></li>
-            <li><a href="#item1c">Item 1c</a></li>
-          </ul>
-        </li>
-        <li>
-          <h2><a href="#category2">Category 2</a></h2>
-          <ul>
-            <li><a href="#item2a">Item 2a</a></li>
-            <li><a href="#item2b">Item 2b</a></li>
-          </ul>
-        </li>
-      </ul>
+    <h1>Expandable Categories</h1>
+        <ul class="expandable-list">
+            <li class="has-children">
+                <h2 class="toggle">
+                    <button class="expand-btn">+</button>
+                    <a href="#category1">Category 1</a>
+                </h2>
+                <ul class="nested-list hidden">
+                    <li class="has-children">
+                        <h3 class="toggle">
+                            <button class="expand-btn">+</button>
+                            <a href="#subcategory1a">Subcategory 1a</a>
+                        </h3>
+                        <ul class="nested-list hidden">
+                            <li><a href="#item1a1">Item 1a-1</a></li>
+                            <li><a href="#item1a2">Item 1a-2</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#subcategory1b">Subcategory 1b</a></li>
+                    <li><a href="#subcategory1c">Subcategory 1c</a></li>
+                </ul>
+            </li>
+            <li class="has-children">
+                <h2 class="toggle">
+                    <button class="expand-btn">+</button>
+                    <a href="#category2">Category 2</a>
+                </h2>
+                <ul class="nested-list hidden">
+                    <li><a href="#subcategory2a">Subcategory 2a</a></li>
+                    <li class="has-children">
+                        <h3 class="toggle">
+                            <button class="expand-btn">+</button>
+                            <a href="#subcategory2b">Subcategory 2b</a>
+                        </h3>
+                        <ul class="nested-list hidden">
+                            <li><a href="#item2b1">Item 2b-1</a></li>
+                            <li><a href="#item2b2">Item 2b-2</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="#category3">Category 3</a></li>
+        </ul>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Select all the buttons that toggle the lists
+            const toggleButtons = document.querySelectorAll('.expand-btn');
+        
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Find the parent <li> element of the clicked button
+                    const parentLi = button.closest('li');
+        
+                    // Find the nested <ul> list within this parent <li>
+                    const nestedList = parentLi.querySelector('.nested-list');
+        
+                    if (nestedList) {
+                        // Toggle the "hidden" class to show/hide the list
+                        nestedList.classList.toggle('hidden');
+        
+                        // Toggle the button text and active class
+                        if (nestedList.classList.contains('hidden')) {
+                            button.textContent = '+';
+                            button.classList.remove('active');
+                        } else {
+                            button.textContent = '-';
+                            button.classList.add('active');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
