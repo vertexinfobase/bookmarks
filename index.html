@@ -38,6 +38,7 @@
                     if( linksArray[i].toLowerCase().includes($(this).val().toLowerCase()) ){
                         let parts = linksArray[i].split("#"); 
                         let item = `<li><a href=` + parts[1] + `>` + parts[2] + `</a></li>`; 
+                        $("ul").append(item); 
                     }
                 }
             });
