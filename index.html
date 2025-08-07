@@ -1,3 +1,4 @@
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bookmarks</title>
     <style>
-        font-size:1rem; 
-        font-family: Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif; 
+        * {
+            outline:none; 
+            margin:0; 
+            padding:0; 
+            border:0; 
+            border-radius:0; 
+            list-style:none; 
+            text-decoration:none; 
+            -webkit-tap-highlight-color: transparent; 
+            font-size:1rem; 
+            font-family: Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif; 
+        }
+        
+        #resultsBox {position:absolute; z-index:1; top:1.75rem; left:0; width:100%; background:white; padding-bottom:4rem; }
+        #resultsBox li{ padding-right:5%; border-bottom:1px solid gainsboro; padding-top:0.25rem; height:1.5rem; text-align:right;}
+        #resultsBox li a{color:darkblue; display:block; height:inherit; width:inherit;}
+
+        body{background:white;}
+
+        #menu{position:fixed; z-index:2; bottom:2rem; right:0; width:96%; padding-left:2%; padding-right:2%;  background:white; text-align:center; }
+        #menu li{display:inline-block;}
+        #menu li{padding-right:5%; padding-top:0.25rem; height:1.5rem;}
+        #menu li a{display:block; height:inherit; width:inherit;}
+
     </style>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
@@ -17,27 +40,195 @@
         <li><a href="https://gitmind.com/">GitMind - Research, Ideas</a></li>
         <li><a href="https://answerthepublic.com/">AnswerThePublic - Research, Keywords</a></li>
         <li><a href="https://trends.google.com/trending?geo=US&hl=en-US">Google Trends - Research, Keywords</a></li>
+        &#926;
     -->
 <body>
-    <h2>BOOKMARKS</h2>
-    <input type="text" placeholder="Search" style="display:block; height:2rem; width:95vw; background:lavender;"/>
-    <ul>
-        
+    
+    <input type="text" placeholder="Search" style="position:fixed; z-index:5; display:block; height:1.75rem; padding-right:2%; width:98%; background:aquamarine; text-align:center;"/>
+    <a href="#" id="menuBtn" style="position:fixed; z-index:5; display:block; padding-top:0.30rem; height:1.70rem; bottom:0; right:0; width:18%; text-align:center; font-size:1.25rem; background:orangered; color:white; ">Menu</a>
+    <ul id="menu">
+        <li><a href="#">Research</a></li>
+        <li><a href="#">Create</a></li>
+        <li><a href="#">Post</a></li>
+        <li><a href="#">Earn</a></li>
+        <li><a href="#">Communication</a></li>
+        <li><a href="#">Office</a></li>
+        <li><a href="#">Storage</a></li>
+        <li><a href="#">Develop</a></li>
+        <li><a href="#">Misc</a></li>
+    </ul>
+
+
+    <ul id="resultsBox"> 
     </ul>
     <script>
         (function(){
+            $("#menu").toggle(200); 
+
+            $("input").on("focus", function(e){
+                $("#menu").hide(200); 
+                $("#resultsBox").show(200);
+            }); 
+
+            $("#menuBtn").on("click", function(e){
+                if( $("#menu").css("display") === "block" ){
+                    $("#resultsBox").show(200);
+                }else{
+                    $("#resultsBox").hide(200);
+                }
+                $("#menu").toggle(200); 
+            }); 
+
+            $("#menu li").on("click", function(e){
+                $("#resultsBox").empty(); 
+                for(let i = 0; i < linksArray.length; i++){
+                    if( linksArray[i].toLowerCase().includes($(this)[0].innerText.toLowerCase()) ){
+                        let parts = linksArray[i].split("#"); 
+                        $("#resultsBox").append( `<li><a href=` + parts[0] + ` target="_blank">` + parts[1] + `</a></li>` ); 
+                    }
+                }
+                $("#menu").hide(200); 
+                $("#resultsBox").show(200);
+            }); 
+
             let linksArray = [
-                "https://gemini.google.com/app#Google Gemini | Research, Ideas", 
-                "https://chatgpt.com#ChatGPT | Research, Ideas", 
-                "https://www.perplexity.ai#ChatGPT | Research, Ideas", 
-                "https://www.gitmind.com#GitMind | Research, Ideas", 
+                'https://mail.google.com/mail/u/0/#Gmail | Communication, Email',
+                'https://discord.com/#Discord | Communication, Group Meetings',
+                'https://web.whatsapp.com/#WhatsApp | Communication, IM AV-Calling',
+                'https://jitsi.org/#Jitsi | Communication, Private IM AV-Group Meetings',
+                'https://github.com/mkiol/dsnote#SpeechNotes | Create, Audio',
+                'https://github.com/SeaDve/Mousai#Identify Songs | Create, Audio',
+                'https://studio.youtube.com/channel/UCj09tXCR0lrteXcDbV1GeRw/music#YT Audio Library | Create, Audio',
+                'https://pixabay.com/sound-effects/search/foley/#Sound Effects | Create, Audio',
+                'https://freesound.org/#Freesound | Create, Audio',
+                'https://www.looperman.com/#Looperman Audio Resources | Create, Audio',
+                'https://elevenlabs.io/#Eleven Labs | Create, Audio',
+                'https://podcast.adobe.com/en/enhance#Adobe Speech Enhance | Create, Audio',
+                'https://speechnotes.co/#SpeechNotes | Create, Audio',
+                'https://uppbeat.io/#UpBeat Free Music | Create, Audio',
+                'https://aistudio.google.com/prompts/new_chat#Google AI Studio | Create, Audio',
+                'https://www.youtube.com/watch?v=40RpP6bxFbY#Moga Punjabi Rap Group | Create, AV Creators',
+                'https://www.canva.com/en_in/#Canva | Create, Images',
+                'https://www.photopea.com/#Photopea | Create, Images',
+                'https://pixabay.com/#Pixabay | Create, Images',
+                'https://unsplash.com/#Unsplash | Create, Images',
+                'https://clipdrop.co/text-remover#Remove Text | Create, Images',
+                'https://www.remove.bg/#Remove Background | Create, Images',
+                'https://www.pixelcut.ai/cleanup-pictures/remove-text-from-images#Remove Text | Create, Images',
+                'https://www.freeconvert.com/webp-to-jpg#Image Converter | Create, Images',
+                'https://tinyjpg.com/#Image Compressor | Create, Images',
+                'https://supermeme.ai/search#SuperMeme | Create, Memes',
+                'https://tenor.com/en-GB/search/meme-search-engine-gifs#Meme Search Engine | Create, Memes',
+                'https://findthatmeme.com/#FindThatMeme | Create, Memes',
+                'https://www.desimemes.in/#DesiMemes | Create, Memes',
+                'https://www.reddit.com/r/punjabimemes/#PunjabiMemes | Create, Memes',
+                'https://www.reddit.com/r/indiameme/#IndianMeme | Create, Memes',
+                'https://curiositycurve.blogspot.com/2017/10/epic-picture-puns.html#Curiosity Curve | Create, Memes',
+                'https://www.kapwing.com/tools#Kapwing | Create, Memes',
+                'https://www.iloveimg.com/meme-generator#Meme Generator | Create, Memes',
+                'https://www.pinterest.com/sheetalyous9703/punjabi-memes/#PunjabiMemes | Create, Memes',
+                'https://www.instagram.com/epicfunnypage/?hl=en#Funny Memes | Create, Memes',
+                'https://gitmind.com/#GitMind | Create, Mindmap',
+                'https://mixkit.co/#MixKit Free Resources | Create, Multiple',
+                'https://runwayml.com/#Runway | Create, Multiple',
+                'https://huggingface.co/#Hugging Face | Create, Multiple',
+                'https://openrouter.ai/#OpenRouter | Create, Multiple',
+                'https://www.grammarly.com/#Grammarly | Create, Text',
+                'https://translate.google.com/?sl=auto&tl=en&op=translate#Google Translator | Create, Text',
+                'https://www.easyhindityping.com/#Hindi Typing | Create, Text',
+                'https://punjabi.indiatyping.com/#Punjabi Typing | Create, Text',
+                'https://blog.youtube/news-and-events/caption-my-youtube-videos/#YouTube Captions | Create, Text',
+                'https://thumbsup.tv/#Thumbnails | Create, Thumbnails',
+                'https://www.youtube.com/creators/youtube-create/#YouTube Creators | Create, Video',
+                'https://www.youtube.com/shorts/XSkHl5-pqzM#3-Step Animation | Create, Video',
+                'https://www.adobe.com/express/feature/video/animation/audio#Adobe Animate You Voice | Create, Video',
+                'https://jitter.video/#Jitter Video | Create, Video',
+                'https://github.com/omni-media/omniclip#Video Editor | Create, Video',
+                'https://clipchamp.com/en/#Clipchamp | Create, Video',
+                'https://www.capcut.com/#Capcut | Create, Video',
+                'https://www.adobe.com/express/create#Adobe Express | Create, Video',
+                'https://subtitle-editor.org/#Subtitle Editor | Create, Video',
+                'https://www.kapwing.com/#Kapwinf Video Editor | Create, Video',
+                'https://www.veed.io/#Veed.io | Create, Video',
+                'https://www.jslint.com/#JSLint | Develop, Code Cheker',
+                'https://github.com/#GitHub | Develop, Collaborate',
+                'https://colorhunt.co/#ColorHunt | Develop, Colors',
+                'https://dash.deno.com/login?redirect=%2F#Deno Dash | Develop, Dashboard',
+                'https://deno.com/#DenoLand | Develop, Deno Package Manager',
+                'https://www.whatfontis.com/#WhatFontIs | Develop, Font-Finder',
+                'https://fontawesome.com/#Font-Awesome | Develop, Fonts',
+                'https://stackoverflow.com/questions#StackOverflow | Develop, Forum',
+                'http://localhost/#Localhost | Develop, Localhost',
+                'https://www.npmjs.com/#NPM | Develop, Node Package Manager',
+                'https://www.mycompiler.io/#MyCompiler | Develop, Online IDE',
+                'https://codepen.io/#Codepen | Develop, Online IDE',
+                'https://github.com/denolib/awesome-deno?tab=readme-ov-file#Deno Awesome | Develop, Sample Projects',
+                'https://affiliate-program.amazon.in/#Amazon Affiliate | Earn, Amazon Payments',
+                'https://gumroad.com/pricing#Gumroad | Earn, Digital Products',
+                'https://buymeacoffee.com/#Buy Me A Coffee | Earn, Donations',
+                'https://kukufm.com/#Kukufm | Earn, eBook Publisher',
+                'https://marketingplatform.google.com/info?authuser=0#Google Marketing Platforms | Earn, Google Marketing',
+                'https://adsense.google.com/start/#Google Adsense | Earn, Google Payments',
+                'https://gnucash.org/#GnuCash | Earn, Open-Source Finance Mgmt',
+                'https://github.com/firefly-iii/firefly-iii?tab=readme-ov-file#Firefly-3 | Earn, Open-Source Finance Mgmt',
+                'https://www.paypal.com/in/home#PayPal | Earn, Payments',
+                'https://open.spotify.com/#Spotify | Earn, Playlists',
+                'https://help.playlistpush.com/en/articles/2295569-the-playlist-requirements-to-qualify-for-playlist-push#Playlist Push | Earn, Playlists',
+                'https://soundcamps.com/#Sound Compaigns | Earn, Playlists',
+                'https://www.submithub.com/ #Submit Hub | Earn, Playlists',
+                'https://groover.co/en#Groover | Earn, Playlists',
+                'https://tinyurl.com/#TinyURL | Earn, URL Shortner',
+                'https://www.google.com/search?q=speed+test#Speedtest | Misc, Utilities',
+                'https://whatismyipaddress.com/#MyIP | Misc, Utilities',
+                'https://archive.org/#Wayback Internet Archive | Misc, Utilities',
+                'https://www.google.com/maps#Google Maps | Misc, Utilities',
+                'https://earth.google.com/web#Google Earth | Misc, Utilities',
+                'https://docs.google.com/document/u/0/#Google Docs | Office, Cloud Documents',
+                'https://docs.google.com/forms/u/0/?pli=1#Google Forms | Office, Cloud Forms',
+                'https://docs.google.com/presentation/u/0/#Google Slides | Office, Cloud Presentations',
+                'https://docs.google.com/spreadsheets/u/0/#Google Sheets | Office, Cloud Spreadsheets',
+                'https://www.blogger.com/about/#Blogger | Post, Blog',
+                'https://studio.youtube.com/channel/UCj09tXCR0lrteXcDbV1GeRw/music#Channel | Post, Channel',
+                'https://www.facebook.com/messages/t/23879777848385397/#Messenger | Post, IM AV-Calling',
+                'https://calendar.google.com/calendar/u/0/r?pli=1#Calender | Post, Manage Schedule',
+                'https://music.youtube.com/#YT-Music | Post, Music Covers',
+                'https://x.com/?lang=en-in#Twitter-X | Post, Posts',
+                'https://www.reddit.com/r/#Reddit | Post, Posts',
+                'https://www.quora.com/?share=1#Quora | Post, Posts',
+                'https://www.pinterest.com/sheetalyous9703/punjabi-memes/#Pinterest | Post, Posts',
+                'https://www.instagram.com/epicfunnypage/?hl=en#Instagram | Post, Posts Shorts',
+                'https://substack.com/browse/staff-picks#Substack | Post, Posts Shorts Videos',
+                'https://www.facebook.com/#Facebook | Post, Posts Shorts Videos Pages ',
+                'https://in.linkedin.com/#LinkedIn | Post, Professional IM Posts',
+                'https://www.youtube.com/#YouTube | Post, Shorts Videos',
+                'https://www.patreon.com/login?ru=https%3A%2F%2Fwww.patreon.com%2Fhome#Patreon | Post, Shorts Videos',
+                'https://www.tubebuddy.com/pricing?a=savenow&msclkid=b1f9a3e256621ecf1cfacb6f40521303#TubeBuddy | Research, Extensions',
+                'https://vidiq.com/#VidIQ | Research, Extensions',
+                'https://socialblade.com/#SocialBlade | Research, Extensions',
+                'https://answerthepublic.com/#AnswerThePublic | Research, Keywords',
+                'https://trends.google.com/trending?geo=US&hl=en-US#Google Trends | Research, Keywords',
+                'https://trends.google.co.in/trends/#Trends | Research, Keywords',
+                'hps://www.google.co.in/alerts#Google Alerts | Research, Keywords',
+                'https://keywordtool.io/#Keyword Tool | Research, Keywords',
+                'https://business.google.com/in/ad-tools/keyword-planner/#Keyword Planner | Research, Keywords',
+                'https://search.google.com/search-console/welcome#Google Search Concole | Research, Keywords',
+                'https://miro.com/pricing/#Miro | Research, Keywords',
+                'https://chatgpt.com/#ChatGPT | Research, Search',
+                'https://gemini.google.com/app#Gemini | Research, Search',
+                'https://www.perplexity.ai/#Perplexity | Research, Search',
+                'https://marketingplatform.google.com/info?authuser=0#Google Analytics | Research, SEO',
+                'https://seosly.com/blog/google-seo-tools/#SEO Tools | Research, SEO',
+                'https://drive.google.com/drive/home#Google Drive | Storage, Cloud',
+                'https://www.dropbox.com/home#Dropbox | Storage, Cloud',
+                
             ]
             
             $("input").on("keyup", function(e){
+                $("#resultsBox").empty(); 
                 for(let i = 0; i < linksArray.length; i++){
                     if( ($(this).val().length >= 3) && linksArray[i].toLowerCase().includes($(this).val().toLowerCase()) ){
                         let parts = linksArray[i].split("#"); 
-                        $("ul").append( `<li><a href=` + parts[0] + `>` + parts[1] + `</a></li>` ); 
+                        $("#resultsBox").append( `<li><a href=` + parts[0] + ` target="_blank">` + parts[1] + `</a></li>` ); 
                     }
                 }
             });
